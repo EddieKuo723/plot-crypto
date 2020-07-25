@@ -1,12 +1,12 @@
-<h1 align="center">Plot Cryptocurrency</h1>
 <p align="center">  
-  📈 Plot realtime cryptocurrency price chart image
-  <br />
-  <img src="image/cover.png">
+  <img src="image/cover.png" width="200">
 </p>
+<h1 align="center">Plot Cryptocurrency</h1>
 
+> 📈 Plot realtime cryptocurrency price chart image
 
 ## Introduction
+
 Support 7 cryptocurrencies 
  - BTC
  - ETH
@@ -34,8 +34,8 @@ docker-compose up -d
 ```
 Visit http://127.0.0.1:5000/, and enjoy it! ✅
 <br />
-Set Requests Parameter for different coin
 <br />
+Set Requests Parameter for different coin
 http://localhost:5000/plotCachePolo.php?coin=ETH
 
 ## Built With
