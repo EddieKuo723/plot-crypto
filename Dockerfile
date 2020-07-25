@@ -10,7 +10,8 @@ RUN apt-get install -y \
     libwebp-dev \
     libjpeg62-turbo-dev \
     libpng-dev libxpm-dev \
-    libfreetype6-dev
+    libfreetype6-dev \
+    git
 
 RUN docker-php-ext-configure gd \
     --with-gd \
@@ -24,3 +25,7 @@ RUN docker-php-ext-configure gd \
 
 RUN docker-php-ext-install gd
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN composer require predis/predis

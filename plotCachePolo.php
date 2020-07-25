@@ -3,11 +3,24 @@ require __DIR__ . '/vendor/autoload.php';
 $parameters = array(
     'host'     => 'redis'
 );
+$indexarr = array(
+	"BTC"=>"Bitcoin",
+	"ETH"=>"Ethereum",
+	"LTC"=>"Litecoin",
+	"XMR"=>"Monero",
+	"ZEC"=>"ZCash",
+	"BCH"=>"Bitcoin Cash",
+	"XRP"=>"Ripple"
+);
 
 $client = new Predis\Client($parameters);
 if ( isset( $_GET['coin'] ) && $_GET['coin'] ) {
 	$coin = $_GET['coin'];
 	$coin = strtoupper($coin);
+	// if input not listed change to BTC
+	if (!array_key_exists($coin, $indexarr)){
+		$coin ='BTC';
+	}	
 	
 }else{
 	$coin ='BTC';
@@ -18,6 +31,7 @@ $cache_secs = getenv("CACHE_SECS");
 $value = $client->get('Polo'.$coin);
 
 if (!empty($value)) {
+	// Display cache image
 	header('Content-type:image/png');
 	echo base64_decode($value);
 }
@@ -38,16 +52,6 @@ else
 
 
 	imagefill($im,0,0,$black);
-	$indexarr = array(
-		"BTC"=>"Bitcoin",
-		"ETH"=>"Ethereum",
-		"LTC"=>"Litecoin",
-		"XMR"=>"Monero",
-		"ZEC"=>"ZCash",
-		"BCH"=>"Bitcoin Cash",
-		"XRP"=>"Ripple"
-	);
-
 
 	$today = date("Y-m-d");
 	$yesterday = date('Y-m-d',strtotime("-1 days"));
@@ -112,7 +116,6 @@ else
 	$font = './font/Roboto-Bold.ttf';
 	$fontsize = 36;
 	$text = $coin;
-
 	$textX = 30;
 	$textY = 70 ;
 	imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $font, $text );
@@ -182,8 +185,6 @@ else
 
 	$low = floor($low * 100) / 100;
 	$high = floor($high * 100) / 100;
-
-
 
 	$text = number_format($Volume, 3, '.' ,',');
 	$fontsize = 20;
