@@ -1,8 +1,9 @@
-<h1 align="center">Plot cryptocurrency</h1>
-<p align="center">
-  <img src="./image/cover.png">
+<h1 align="center">Plot Cryptocurrency</h1>
+<p align="center">  
+  <img src="image/cover.png">
+  > 📈 Plot realtime cryptocurrency price chart image
 </p>
-> 📈 Plot realtime cryptocurrency price chart image
+
 
 ## Introduction
 Support 7 cryptocurrencies 
@@ -15,7 +16,7 @@ Support 7 cryptocurrencies
  - XRP
 
 ## Cache Configurations
-CACHE_SECS: image cache expiry time in seconds, default to 60
+`CACHE_SECS`: image cache expiry time in seconds, default to 60
 ```
 FROM php:7.2-apache
 COPY . /var/www/html/
@@ -31,7 +32,10 @@ git clone https://github.com/EddieKuo723/plot-crypto.git
 docker-compose up -d
 ```
 Visit http://127.0.0.1:5000/, and enjoy it! ✅
-Set Requests Parameter for different coin http://localhost:5000/plotCachePolo.php?coin=ETH
+<br /><br />
+Set Requests Parameter for different coin
+<br />
+http://localhost:5000/plotCachePolo.php?coin=ETH
 
 ## Built With
 * [Poloniex API](https://docs.poloniex.com/#returnchartdata)
