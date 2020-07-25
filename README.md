@@ -1,7 +1,8 @@
 <h1 align="center">Plot Cryptocurrency</h1>
 <p align="center">  
+  📈 Plot realtime cryptocurrency price chart image
+  <br />
   <img src="image/cover.png">
-  > 📈 Plot realtime cryptocurrency price chart image
 </p>
 
 
@@ -32,7 +33,7 @@ git clone https://github.com/EddieKuo723/plot-crypto.git
 docker-compose up -d
 ```
 Visit http://127.0.0.1:5000/, and enjoy it! ✅
-<br /><br />
+<br />
 Set Requests Parameter for different coin
 <br />
 http://localhost:5000/plotCachePolo.php?coin=ETH
