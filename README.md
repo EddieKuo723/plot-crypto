@@ -1,5 +1,5 @@
 <p align="center">  
-  <img src="image/cover.png" width="200">
+  <img src="image/cover.png" max-width="700">
 </p>
 <h1 align="center">Plot Cryptocurrency</h1>
 
@@ -35,7 +35,7 @@ docker-compose up -d
 Visit http://127.0.0.1:5000/, and enjoy it! ✅
 <br />
 <br />
-Set Requests Parameter for different coin
+Set Requests Parameter for different coin:
 http://localhost:5000/plotCachePolo.php?coin=ETH
 
 ## Built With
