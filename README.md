@@ -1,5 +1,5 @@
 <p align="center">  
-  <img src="image/cover.png" max-width="700">
+  <img src="image/cover.png" max-width="600">
 </p>
 <h1 align="center">Plot Cryptocurrency</h1>
 
