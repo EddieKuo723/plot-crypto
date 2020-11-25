@@ -1,4 +1,4 @@
 <?php
-header("Location: /plotCachePolo.php");
+header("Location: /plotBinance.php");
 die();
 ?>
