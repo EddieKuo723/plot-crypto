@@ -17,7 +17,7 @@ Support 7 cryptocurrencies
  - XRP
 
 ## Cache Configurations
-`CACHE_SECS`: image cache expiry time in seconds, default to 60
+`CACHE_SECS`: image cache expiry time in seconds, default to 60 in Dockerfile
 ```
 FROM php:7.2-apache
 COPY . /var/www/html/
@@ -36,15 +36,15 @@ Visit http://127.0.0.1:5000/, and enjoy it! ✅
 <br />
 <br />
 Set Requests Parameter for different coin:
-http://localhost:5000/plotCachePolo.php?coin=ETH
+http://localhost:5000/plotBinance.php?coin=ETH
 
 ## Built With
 * [Poloniex API](https://docs.poloniex.com/#returnchartdata)
+* [Binance API](https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#klinecandlestick-data)
 * [Docker Compose](https://docs.docker.com/compose/)
 * [Composer](https://getcomposer.org/)
 * [predis](https://github.com/nrk/predis)
 * [Roboto Fonts](https://fonts.google.com/specimen/Roboto)
-
 
 
 

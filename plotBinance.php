@@ -1,19 +1,38 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
-$client = new Predis\Client();
-if ( isset( $_GET['type'] ) && $_GET['type'] ) {
-	$type = $_GET['type'];
-	$type = strtoupper($type);
+$parameters = array(
+    'host'     => 'redis'
+);
+$client = new Predis\Client($parameters);
+
+$indexarr = array(
+	"BTC"=>"Bitcoin",
+	"ETH"=>"Ethereum",
+	"LTC"=>"Litecoin",
+	"XMR"=>"Monero",
+	"ZEC"=>"ZCash",
+	"BCH"=>"Bitcoin Cash",
+	"XRP"=>"Ripple"
+);
+if ( isset( $_GET['coin'] ) && $_GET['coin'] ) {
+	$coin = $_GET['coin'];
+
+	$coin = strtoupper($coin);
+	// if input not listed change to BTC
+	if (!array_key_exists($coin, $indexarr)){
+		$coin ='BTC';
+	}
 	
 }else{
-	$type ='BTC';
+	$coin ='BTC';
 }
-$value = $client->get('Binan'.$type);
+// get variable from docker setting
+$cache_secs = getenv("CACHE_SECS");
+$value = $client->get('Binance'.$coin);
 
 if (!empty($value)) {
-	// echo $value;
-
+	// Get Cache
 	header('Content-type:image/png');	
 	echo base64_decode($value);
 }
@@ -39,11 +58,11 @@ else
 
 	$graphHeight = 275;
 	$graphHeight = 180;
-	$nextButtom = 340-$graphHeight;
+	$nextButtom  = 340-$graphHeight;
 	$lowline = $height - $nextButtom;
 
 	imagefill($im,0,0,$black);
-	$url = 'https://api.binance.com/api/v3/klines?symbol='.$type.'USDT&interval=5m&limit=200';
+	$url = 'https://api.binance.com/api/v3/klines?symbol='.$coin.'USDT&interval=5m&limit=200';
 
 	$jsond = file_get_contents($url);
 	$json_a = json_decode($jsond, true);
@@ -55,8 +74,8 @@ else
 	}
 	// ========== Upper graph ==================
 	$high = max($minmax);
-	$low = min($minmax);
-	$mid = ($high - $low)/2;
+	$low  = min($minmax);
+	$mid  = ($high - $low)/2;
 	$height_ratio = 180/($high - $low);
 	$width_ratio = 400/200;
 
@@ -68,18 +87,20 @@ else
 	$highline = $height - $nextButtom -$graphHeight;
 	$lowline = $height - $nextButtom;
 	$deepline = $height - 60;
+	$graph_buttom = 270;
 
-	imageline($im,270,$highline-5,670,$highline-5,$grey);
-	imageline($im,270,$lowline+5,670,$lowline+5,$grey);
+	imageline($im,$graph_buttom,$highline-5,670,$highline-5,$grey);
+	imageline($im,$graph_buttom,$lowline+5,670,$lowline+5,$grey);
 
-	for($i=0,$j=count($point);$i<$j-1;$i++){//连接前后坐标
-		imageline($im,$point[$i][0]+270,$point[$i][1],$point[$i+1][0]+270,$point[$i+1][1],$blue);
+	for($i=0,$j=count($point);$i<$j-1;$i++){
+		imageline($im,$point[$i][0]+$graph_buttom,$point[$i][1],$point[$i+1][0]+$graph_buttom,$point[$i+1][1],$blue);
 		$values = array(
-			$point[$i][0]+270,  $point[$i][1],  // Point 1 (x, y)
-			$point[$i+1][0]+270,  $point[$i+1][1], // Point 2 (x, y)
-			$point[$i+1][0]+270,  $lowline,  // Point 3 (x, y)
-			$point[$i][0]+270, $lowline  // Point 4 (x, y)
+			$point[$i][0]  +$graph_buttom,  $point[$i][1],   // Point 1 (x, y)
+			$point[$i+1][0]+$graph_buttom,  $point[$i+1][1], // Point 2 (x, y)
+			$point[$i+1][0]+$graph_buttom,  $lowline,        // Point 3 (x, y)
+			$point[$i][0]  +$graph_buttom,  $lowline         // Point 4 (x, y)
 		);
+		// Make blue cover under chart line
 		imagefilledpolygon($im, $values, 4, $blueblue);
 	}
 	// ============= lower graph =========================
@@ -97,7 +118,7 @@ else
 	}
 
 	
-	$url = 'https://api.binance.com/api/v3/ticker/24hr?symbol='.$type.'USDT';
+	$url = 'https://api.binance.com/api/v3/ticker/24hr?symbol='.$coin.'USDT';
 
 	$jsond = file_get_contents($url);
 	$json_a = json_decode($jsond, true);
@@ -109,27 +130,17 @@ else
 	$Volume = $json_a['volume'];
 	$change = $json_a['priceChange'];
 
-	$font = './font/NotoSans-Bold.ttf';
-	$boldfont = './font/NotoSans-Bold.ttf';
+	$font = './font/Roboto-Bold.ttf';
+	$boldfont = './font/Roboto-Bold.ttf';
 
 	$fontsize = 36;
-	$text = $type.'/USDT';
-
-	#$textX = 35;
-	#$textY = 70;
+	$text = $coin.'/USDT';
 	$textX = 30;
 	$textY = 70 ;
 	imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $font, $text );
 
-	$font = './font/NotoSans-Regular.ttf';
+	$font = './font/Roboto-Regular.ttf';
 
-
-	// $text = $type.' (USD)';
-	// #$textX = 35;
-	// #$textY = 70;
-	// $textX = 180;
-	// $textY = 70;
-	// imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $font, $text );
 
 	$text = '|';
 	$fontsize = 25;
@@ -141,7 +152,6 @@ else
 	$change = number_format((float)$change, 2, '.', '');
 
 	$Mfont = './font/Roboto-Medium.ttf';
-	// $Mfont = 'NotoSans-Regular.ttf';
 
 	$fontsize = 48;
 	$textX = 30;
@@ -215,7 +225,7 @@ else
 	$high = number_format((float)$high, 2, '.', '');
 
 	$text = $low.' - '.$high;
-	$fontsize = 20;
+	$fontsize = 18;
 	$textX =  30;
 	$textY = 400;
 	imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $font, $text );
@@ -223,10 +233,10 @@ else
 	
 	
 	$coords = imagettfbbox( 18, 0, $boldfont, $high );
-	imagettftext( $im, 18, 0, 670-$coords[4], $highline-7, $white , $boldfont,  $high);
+	imagettftext( $im, 18, 0, 665-$coords[4], $highline-7, $white , $boldfont,  $high);
 
 	$coords = imagettfbbox( 18, 0, $boldfont, $low );
-	imagettftext( $im, 18, 0, 670-$coords[4], $lowline-2, $white, $boldfont,  $low);
+	imagettftext( $im, 18, 0, 665-$coords[4], $lowline-2, $white, $boldfont,  $low);
 
 	date_default_timezone_set("Asia/Taipei");
 	$fontsize = 16;
@@ -243,8 +253,8 @@ else
 	ob_end_clean (); 
 	$base64 = base64_encode($base64);
 
-	$client->set("Binan".$type, $base64);
-	$client->expire("Binan".$type, 180);
+	$client->set("Binance".$coin, $base64);
+	$client->expire("Binance".$coin, $cache_secs);
 
 	header('Content-type:image/png');
 	// header("Cache-Control: private, max-age=3600");
