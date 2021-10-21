@@ -1,6 +1,7 @@
 <p align="center">  
   <img src="image/cover.png" max-width="600">
 </p>
+[![update-price-image](https://github.com/EddieKuo723/plot-crypto/actions/workflows/Update_Image.yml/badge.svg?event=schedule)](https://github.com/EddieKuo723/plot-crypto/actions/workflows/Update_Image.yml)
 <h1 align="center">Plot Cryptocurrency</h1>
 
 > 📈 Plot realtime cryptocurrency price chart image
