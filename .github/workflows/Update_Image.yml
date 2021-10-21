@@ -1,0 +1,24 @@
+name: update-price-image
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+      
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out this repo
+      uses: actions/checkout@v2
+    - name: Fetch latest data
+      run: |-
+        curl ${{ secrets.image_url }} > image/cover.png
+    - name: Commit and push if it changed
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git add -A
+        timestamp=$(date +%s)
+        git commit -m "Latest price: ${timestamp}" || exit 0
+        git push
+
