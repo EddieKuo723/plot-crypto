@@ -12,8 +12,11 @@ jobs:
     - name: Check out this repo
       uses: actions/checkout@v2
     - name: Fetch latest data
+      env: 
+        image_url: ${{ secrets.IMAGE_URL }}
       run: |-
-        curl ${{ secrets.IMAGE_URL }} > image/cover.png
+        curl ${{ env.image_url }} > image/cover.png
+      
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"
