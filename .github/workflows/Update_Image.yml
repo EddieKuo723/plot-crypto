@@ -12,17 +12,15 @@ jobs:
     - name: Check out this repo
       uses: actions/checkout@v2
     - name: Fetch latest data
-      env: 
-        image_url: ${{ secrets.IMAGE_URL }}
       run: |-
-        curl ${{ env.image_url }} > image/cover.png
+        curl ${{ secrets.IMAGE_URL }} > cover.png
       
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
         git add -A
-        timestamp=$(date +%s)
+        timestamp=$(date +%F)
         git commit -m "Latest price: ${timestamp}" || exit 0
         git push
 
