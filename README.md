@@ -6,18 +6,11 @@
 
 <h1 align="center">Plot Cryptocurrency</h1>
 
-> 📈 Plot realtime cryptocurrency price chart image
+> 📈 Generate a real-time image displaying the chart of cryptocurrency prices.
 
 ## Introduction
 
-Support 7 cryptocurrencies 
- - BTC
- - ETH
- - LTC
- - XMR
- - ZEC
- - BCH
- - XRP
+This tool provides a seamless solution for generating real-time price charts for seven major cryptocurrencies. With support for Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Monero (XMR), Zcash (ZEC), and Bitcoin Cash (BCH), users can track price movements and trends with ease. Whether you're a cryptocurrency enthusiast, trader, or developer, this project offers valuable insights into the dynamic world of digital assets.
 
 ## Cache Configurations
 `CACHE_SECS`: image cache expiry time in seconds, default to 60 in Dockerfile
