@@ -156,16 +156,26 @@ else
 	$fontsize = 48;
 	$textX = 30;
 	$textY = 180 ;
+
+	$price_font_size = 20;
+	$price_text = '$'.$close.'  '.$change;
+	$bbox = imagettfbbox($price_font_size, 0, $font, $price_text);
+	$text_width = $bbox[2] - $bbox[0];
+
+	while ($text_width > 235) {
+		$price_font_size--;
+		$bbox = imagettfbbox($price_font_size, 0, $font, $price_text);
+		$text_width = $bbox[2] - $bbox[0];
+	}
+
 	if ($rate == 0) {
 		# code...
 		$text = $rate.'%';
 		imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $Mfont, $text );
-		$text = '$'.$close.'  '.$change;
 
-		$fontsize = 20;
 		$textX =  30;
 		$textY = 220;
-		imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $font, $text );
+		imagettftext( $im, $price_font_size, 0, $textX, $textY, $white, $font, $price_text );
 	}
 	elseif ($rate <0) {
 		# code...
@@ -176,22 +186,18 @@ else
 		$text = $rate.'%';
 		imagettftext( $im, $fontsize, 0, $textX, $textY, $green, $Mfont, $text );
 
-		$text = '$'.$close.'  '.$change;
-		$fontsize = 20;
 		$textX =  30;
 		$textY = 220;
-		imagettftext( $im, $fontsize, 0, $textX, $textY, $green, $font, $text );
+		imagettftext( $im, $price_font_size, 0, $textX, $textY, $green, $font, $price_text );
 	}
 	else{
 		$rate = number_format((float)$rate, 2, '.', '');
 		$text =  $rate .'%';
 		imagettftext( $im, $fontsize, 0, $textX, $textY, $red, $Mfont, $text );
 
-		$text = '$'.$close.'  '.$change;
-		$fontsize = 20;
 		$textX =  30;
 		$textY = 220;
-		imagettftext( $im, $fontsize, 0, $textX, $textY, $red, $font, $text );
+		imagettftext( $im, $price_font_size, 0, $textX, $textY, $red, $font, $price_text );
 	}
 
 
@@ -228,7 +234,17 @@ else
 	$fontsize = 18;
 	$textX =  30;
 	$textY = 400;
-	imagettftext( $im, $fontsize, 0, $textX, $textY, $white, $font, $text );
+	// Calculate the width of the text
+	$bbox = imagettfbbox($fontsize, 0, $font, $text);
+	$text_width = $bbox[2] - $bbox[0];
+
+	while ($text_width > 235) {
+		$fontsize--;
+		$bbox = imagettfbbox($fontsize, 0, $font, $text);
+		$text_width = $bbox[2] - $bbox[0];
+	}
+
+	imagettftext($im, $fontsize, 0, $textX, $textY, $white, $font, $text);
 
 	
 	
