@@ -10,39 +10,39 @@
 
 ## Introduction
 
-This tool provides a seamless solution for generating real-time price charts for seven major cryptocurrencies. With support for Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Monero (XMR), Zcash (ZEC), and Bitcoin Cash (BCH), users can track price movements and trends with ease. Whether you're a cryptocurrency enthusiast, trader, or developer, this project offers valuable insights into the dynamic world of digital assets.
+This tool generates real-time price charts for major cryptocurrencies supported by Binance (e.g., BTC, ETH, LTC, SOL, etc.). The charts display a 24-hour summary, 5-minute interval kline graph (using a filled-polygon style), trading volume bars, and day range statistics.
 
-## Cache Configurations
-`CACHE_SECS`: image cache expiry time in seconds, default to 60 in Dockerfile
-```
-FROM php:7.2-apache
-COPY . /var/www/html/
-WORKDIR /var/www/html/
+## Caching
 
-EXPOSE 80
-ENV CACHE_SECS=60
+Caching is handled via HTTP response headers:
+```http
+Cache-Control: max-age=184, public
 ```
 
 ## Deployment
-```
+
+To deploy the application locally:
+```bash
 git clone https://github.com/EddieKuo723/plot-crypto.git
 docker-compose up -d
 ```
-Visit http://127.0.0.1:5000/, and enjoy it! ✅
+Visit http://127.0.0.1:5001/, and enjoy it! ✅
+
 <br />
 <br />
-Set Requests Parameter for different coin:
-http://localhost:5000/plotBinance.php?coin=ETH
+
+### Request Parameters
+
+You can specify the cryptocurrency symbol using the `type` parameter:
+- **Bitcoin**: http://localhost:5001/plotBinance.php?type=BTC
+- **Ethereum**: http://localhost:5001/plotBinance.php?type=ETH
+- **Solana**: http://localhost:5001/plotBinance.php?type=SOL
 
 ## Built With
-* [Poloniex API](https://docs.poloniex.com/#returnchartdata)
 * [Binance API](https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#klinecandlestick-data)
 * [Docker Compose](https://docs.docker.com/compose/)
-* [Composer](https://getcomposer.org/)
-* [predis](https://github.com/nrk/predis)
 * [Roboto Fonts](https://fonts.google.com/specimen/Roboto)
-
-
+* [PHP GD Library](https://www.php.net/manual/en/book.image.php)
 
 ## Author
 
